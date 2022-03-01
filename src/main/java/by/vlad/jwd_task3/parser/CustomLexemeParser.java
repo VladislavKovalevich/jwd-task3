@@ -9,7 +9,7 @@ import by.vlad.jwd_task3.util.impl.BitOperationImpl;
 
 public class CustomLexemeParser extends AbstractParserHandler{
     private static final String LEXEME_DELIMITER = "\\s";
-    private static final String BIT_OPERATION_REGEX = "(\\d+)([\\&\\|\\^\\(\\~\\<\\>\\)]){2,}";//
+    private static final String BIT_OPERATION_REGEX = "(\\d+)([\\&\\|\\^\\(\\~\\<+\\>+\\)]){2,}";//
 
 
     public CustomLexemeParser() {
