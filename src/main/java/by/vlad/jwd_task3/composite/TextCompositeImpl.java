@@ -46,4 +46,13 @@ public class TextCompositeImpl implements TextComposite {
         result = prime * result + components.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return new StringBuilder().append("TextCompositeImpl{ type=")
+                .append(type)
+                .append(", components=")
+                .append(components)
+                .append('}').toString();
+    }
 }
