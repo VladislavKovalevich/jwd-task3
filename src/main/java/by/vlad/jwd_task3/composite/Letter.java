@@ -1,6 +1,12 @@
 package by.vlad.jwd_task3.composite;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.List;
+
 public class Letter implements TextComposite {
+    private static final Logger logger = LogManager.getLogger();
     private char letter;
 
     public Letter(char letter) {
@@ -11,15 +17,24 @@ public class Letter implements TextComposite {
         return letter;
     }
 
-    public void operation() {
+    @Override
+    public List<TextComposite> getAllLeaf() {
+        return null;
     }
 
     public boolean add(TextComposite textComposite) {
+        logger.warn("Cannot add element to final component");
         return false;
     }
 
     public boolean remove(TextComposite textComposite) {
+        logger.warn("Cannot remove element from final component");
         return false;
+    }
+
+    @Override
+    public TextComponentType getType() {
+        return null;
     }
 
     @Override
@@ -42,6 +57,6 @@ public class Letter implements TextComposite {
 
     @Override
     public String toString() {
-        return new StringBuilder(letter).toString();
+        return String.valueOf(letter);
     }
 }

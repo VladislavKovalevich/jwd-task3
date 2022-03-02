@@ -1,7 +1,12 @@
 package by.vlad.jwd_task3.composite;
 
-public class Punctuation implements TextComposite {
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import java.util.List;
+
+public class Punctuation implements TextComposite {
+    private static final Logger logger = LogManager.getLogger();
     private char punct;
 
     public Punctuation(char punct) {
@@ -12,15 +17,24 @@ public class Punctuation implements TextComposite {
         return punct;
     }
 
-    public void operation() {
+    @Override
+    public List<TextComposite> getAllLeaf() {
+        return null;
     }
 
     public boolean add(TextComposite textComposite) {
+        logger.warn("Cannot add element to final component");
         return false;
     }
 
     public boolean remove(TextComposite textComposite) {
+        logger.warn("Cannot remove element from final component");
         return false;
+    }
+
+    @Override
+    public TextComponentType getType() {
+        return null;
     }
 
     @Override
@@ -43,6 +57,6 @@ public class Punctuation implements TextComposite {
 
     @Override
     public String toString() {
-        return new StringBuilder(punct).toString();
+        return String.valueOf(punct);
     }
 }

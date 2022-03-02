@@ -6,6 +6,9 @@ import by.vlad.jwd_task3.composite.TextCompositeImpl;
 import by.vlad.jwd_task3.util.BitOperation;
 import by.vlad.jwd_task3.util.impl.BitOperationImpl;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class CustomLexemeParser extends AbstractParserHandler{
     private static final String LEXEME_DELIMITER = "\\s";
@@ -23,7 +26,10 @@ public class CustomLexemeParser extends AbstractParserHandler{
 
         for (int i = 0; i < lexemes.length; i++) {
             TextComposite lexemeComponent = new TextCompositeImpl(TextComponentType.LEXEME);
-            if (lexemes[i].matches(BIT_OPERATION_REGEX)){
+
+            Pattern pattern = Pattern.compile(BIT_OPERATION_REGEX);
+            Matcher matcher = pattern.matcher(lexemes[i]);
+            if (matcher.find()){
                 BitOperation bitOperation = BitOperationImpl.getInstance();
                 String temp = bitOperation.returnResultOfExpression(lexemes[i]);
                 lexemes[i] = temp;

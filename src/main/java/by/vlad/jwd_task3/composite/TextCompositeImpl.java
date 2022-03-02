@@ -12,7 +12,9 @@ public class TextCompositeImpl implements TextComposite {
         this.type = type;
     }
 
-    public void operation() {
+    @Override
+    public List<TextComposite> getAllLeaf() {
+        return new ArrayList<>(components);
     }
 
     public boolean add(TextComposite textComposite) {
@@ -23,6 +25,7 @@ public class TextCompositeImpl implements TextComposite {
         return components.remove(textComposite);
     }
 
+    @Override
     public TextComponentType getType() {
         return type;
     }
@@ -49,10 +52,10 @@ public class TextCompositeImpl implements TextComposite {
 
     @Override
     public String toString() {
-        return new StringBuilder().append("TextCompositeImpl{ type=")
-                .append(type)
-                .append(", components=")
-                .append(components)
-                .append('}').toString();
+        StringBuilder string = new StringBuilder();
+        string.append(type.getPrefix());
+        components.forEach(c -> string.append(c.toString()));
+        string.append(type.getPostfix());
+        return string.toString();
     }
 }
