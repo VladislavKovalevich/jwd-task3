@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ParagraphParser extends AbstractParserHandler {
-    public static final String PARAGRAPH_DELIMITER = "(\\t|\\s{4})";
+    public static final String PARAGRAPH_DELIMITER = "\\n";
 
     public ParagraphParser() {
         this.nextHandler = new SentenceParser();
@@ -18,7 +18,6 @@ public class ParagraphParser extends AbstractParserHandler {
     @Override
     public void parse(TextComposite component, String text) {
         List<String> paragraphs = Stream.of(text.split(PARAGRAPH_DELIMITER))
-                .filter(p -> !p.isEmpty())
                 .collect(Collectors.toList());
 
         for (String paragraph : paragraphs) {

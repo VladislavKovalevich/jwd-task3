@@ -17,7 +17,7 @@ public class TextFileReaderImpl implements TextFileReader {
 
         try(BufferedReader bufferedReader = new BufferedReader(new FileReader(new File(path)))) {
 
-            text = bufferedReader.lines().map(l -> l + " ").collect(Collectors.joining());
+            text = bufferedReader.lines().map(l -> l.replace("    ", "")).map(l -> l + "\n").collect(Collectors.joining());
 
         } catch (FileNotFoundException e) {
             logger.error("Cannot find this file " + path, e);
