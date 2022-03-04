@@ -1,14 +1,19 @@
 package by.vlad.jwd_task3.composite;
 
 public enum TextComponentType {
-    WORD("", ""),
+    LETTER(),
+    PUNCTUATION(),
+    WORD(),
     LEXEME("", " "),
-    SENTENCE("", ""),
+    SENTENCE(),
     PARAGRAPH("\t", "\n"),
-    TEXT("", "");
+    TEXT();
 
-    private final String prefix;
-    private final String postfix;
+    private String prefix = "";
+    private String postfix = "";
+
+    TextComponentType(){
+    }
 
     TextComponentType(String prefix, String postfix) {
         this.prefix = prefix;

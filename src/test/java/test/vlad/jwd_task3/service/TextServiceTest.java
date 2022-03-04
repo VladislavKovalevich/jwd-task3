@@ -3,9 +3,9 @@ package test.vlad.jwd_task3.service;
 import by.vlad.jwd_task3.composite.TextComponentType;
 import by.vlad.jwd_task3.composite.TextComposite;
 import by.vlad.jwd_task3.composite.TextCompositeImpl;
-import by.vlad.jwd_task3.parser.CustomParagraphParser;
-import by.vlad.jwd_task3.service.CustomTextService;
-import by.vlad.jwd_task3.service.impl.CustomTextServiceImpl;
+import by.vlad.jwd_task3.parser.ParagraphParser;
+import by.vlad.jwd_task3.service.TextService;
+import by.vlad.jwd_task3.service.impl.TextServiceImpl;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,19 +13,19 @@ import org.testng.annotations.Test;
 import java.util.List;
 import java.util.Map;
 
-public class CustomTextServiceTest {
-    private CustomTextService service;
+public class TextServiceTest {
+    private TextService service;
     private TextComposite text;
     private TextComposite text2;
 
     @BeforeClass
     void setUp(){
-        CustomParagraphParser parser = new CustomParagraphParser();
+        ParagraphParser parser = new ParagraphParser();
         text = new TextCompositeImpl(TextComponentType.TEXT);
         text2 = new TextCompositeImpl(TextComponentType.TEXT);
         parser.parse(text, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
         parser.parse(text2, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
-        service = new CustomTextServiceImpl();
+        service = new TextServiceImpl();
     }
 
 

@@ -7,11 +7,11 @@ import by.vlad.jwd_task3.composite.TextCompositeImpl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CustomSentenceParser extends AbstractParserHandler {
+public class SentenceParser extends AbstractParserHandler {
     private static final String SENTENCE_REGEX = "([A-Z]|[А-ЯЁ]).+?([.!?\\u2026])(\\s|$)";
 
-    public CustomSentenceParser() {
-        this.nextHandler = new CustomLexemeParser();
+    public SentenceParser() {
+        this.nextHandler = new LexemeParser();
     }
 
     @Override

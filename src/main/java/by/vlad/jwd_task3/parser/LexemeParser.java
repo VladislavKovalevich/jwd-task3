@@ -10,13 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class CustomLexemeParser extends AbstractParserHandler{
+public class LexemeParser extends AbstractParserHandler{
     private static final String LEXEME_DELIMITER = "\\s";
     private static final String BIT_OPERATION_REGEX = "(\\d+)([\\&\\|\\^\\(\\~\\<+\\>+\\)]){2,}";//
 
 
-    public CustomLexemeParser() {
-        this.nextHandler = new CustomWordParser();
+    public LexemeParser() {
+        this.nextHandler = new WordParser();
     }
 
     @Override

@@ -1,19 +1,16 @@
 package by.vlad.jwd_task3.parser;
 
-import by.vlad.jwd_task3.composite.Punctuation;
-import by.vlad.jwd_task3.composite.TextComponentType;
-import by.vlad.jwd_task3.composite.TextComposite;
-import by.vlad.jwd_task3.composite.TextCompositeImpl;
+import by.vlad.jwd_task3.composite.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CustomWordParser extends AbstractParserHandler {
+public class WordParser extends AbstractParserHandler {
     private static final String WORD_PUNCTUATION_REGEX = "[0-9a-zA-Zа-яА-ЯёЁ']+|[\\p{Punct}\\u2026]";
     private static final String WORD_REGEX = "[0-9a-zA-Zа-яА-ЯёЁ']+";
 
-    public CustomWordParser() {
-        this.nextHandler = new CustomLetterParser();
+    public WordParser() {
+        this.nextHandler = new LetterParser();
     }
 
     @Override
@@ -33,8 +30,8 @@ public class CustomWordParser extends AbstractParserHandler {
                 component.add(wordComponent);
                 nextHandler.parse(wordComponent, group);
             } else {
-                TextComposite punctComponent = new Punctuation(group.charAt(0));
-                component.add(punctComponent);
+                TextComposite punctuationComponent = new Symbol(TextComponentType.PUNCTUATION, group.charAt(0));
+                component.add(punctuationComponent);
             }
         }
     }

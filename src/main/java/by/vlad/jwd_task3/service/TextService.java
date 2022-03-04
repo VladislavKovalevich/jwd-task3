@@ -5,7 +5,7 @@ import by.vlad.jwd_task3.composite.TextComposite;
 import java.util.List;
 import java.util.Map;
 
-public interface CustomTextService {
+public interface TextService {
     List<TextComposite> sortParagraphBySentenceCount(TextComposite text);
     List<TextComposite> findSentenceWithLongestWord(TextComposite text);
     List<TextComposite> deleteSentencesWithWordsLessThan(TextComposite text, int countWord);

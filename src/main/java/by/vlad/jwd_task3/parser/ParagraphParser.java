@@ -8,11 +8,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class CustomParagraphParser extends AbstractParserHandler {
+public class ParagraphParser extends AbstractParserHandler {
     public static final String PARAGRAPH_DELIMITER = "(\\t|\\s{4})";
 
-    public CustomParagraphParser() {
-        this.nextHandler = new CustomSentenceParser();
+    public ParagraphParser() {
+        this.nextHandler = new SentenceParser();
     }
 
     @Override

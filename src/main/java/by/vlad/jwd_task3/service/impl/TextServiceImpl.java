@@ -1,7 +1,7 @@
 package by.vlad.jwd_task3.service.impl;
 
 import by.vlad.jwd_task3.composite.*;
-import by.vlad.jwd_task3.service.CustomTextService;
+import by.vlad.jwd_task3.service.TextService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-public class CustomTextServiceImpl implements CustomTextService {
+public class TextServiceImpl implements TextService {
     private static final Logger logger = LogManager.getLogger();
     private static final String VOWEL_REGEX = "(?ui)[aeiouyуеыаоэяиюё]";
     private static final String CONSONANT_REGEX = "(?ui)[a-zа-я&&[^aeiouyуеыаоэяию]]";
@@ -40,7 +40,7 @@ public class CustomTextServiceImpl implements CustomTextService {
             for (TextComposite sentence : paragraph.getAllLeaf()) {
                 for (TextComposite lexeme : sentence.getAllLeaf()) {
                     for (TextComposite word : lexeme.getAllLeaf()) {
-                        if (!(word instanceof Punctuation)) {
+                        if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
                             List<TextComposite> letters = word.getAllLeaf();
                             if (letters.size() > sizeOfLongestWord) {
                                 sizeOfLongestWord = letters.size();
@@ -57,7 +57,7 @@ public class CustomTextServiceImpl implements CustomTextService {
             for (TextComposite sentence : paragraph.getAllLeaf()) {
                 for (TextComposite lexeme : sentence.getAllLeaf()) {
                     for (TextComposite word : lexeme.getAllLeaf()) {
-                        if (!(word instanceof Punctuation)) {
+                        if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
                             List<TextComposite> letters = word.getAllLeaf();
                             if (letters.size() == sizeOfLongestWord) {
                                 result.add(word);
@@ -81,8 +81,10 @@ public class CustomTextServiceImpl implements CustomTextService {
             for (TextComposite sentence : sentenceList) {
                 int countOfWords = 0;
                 for (TextComposite lexeme : sentence.getAllLeaf()) {
-                    if (!(lexeme instanceof Punctuation)) {
-                        countOfWords++;
+                    for (TextComposite word : lexeme.getAllLeaf()) {
+                        if (word.getType().equals(TextComponentType.WORD)) {
+                            countOfWords++;
+                        }
                     }
                 }
                 if (countOfWords < countWord) {
@@ -102,7 +104,7 @@ public class CustomTextServiceImpl implements CustomTextService {
                 .flatMap(p -> p.getAllLeaf().stream())
                 .flatMap(s -> s.getAllLeaf().stream())
                 .flatMap(l -> l.getAllLeaf().stream())
-                .filter(l -> !(l instanceof Punctuation))
+                .filter(w -> w.getType().equals(TextComponentType.WORD))
                 .map(w -> w.toString().toLowerCase())
                 .collect(Collectors.toMap(str -> str, i -> 1, (i1, i2) -> i1 + i2));
 
@@ -119,7 +121,7 @@ public class CustomTextServiceImpl implements CustomTextService {
                 .flatMap(p -> p.getAllLeaf().stream())
                 .flatMap(s -> s.getAllLeaf().stream())
                 .flatMap(l -> l.getAllLeaf().stream())
-                .filter(w -> !(w instanceof Punctuation))
+                .filter(w -> w.getType().equals(TextComponentType.WORD))
                 .flatMap(w -> w.getAllLeaf().stream())
                 .map(Object::toString)
                 .filter(let -> pattern.matcher(let).matches())
@@ -136,7 +138,7 @@ public class CustomTextServiceImpl implements CustomTextService {
                 .flatMap(p -> p.getAllLeaf().stream())
                 .flatMap(s -> s.getAllLeaf().stream())
                 .flatMap(l -> l.getAllLeaf().stream())
-                .filter(w -> !(w instanceof Punctuation))
+                .filter(w -> w.getType().equals(TextComponentType.WORD))
                 .flatMap(w -> w.getAllLeaf().stream())
                 .map(Object::toString)
                 .filter(let -> pattern.matcher(let).matches())

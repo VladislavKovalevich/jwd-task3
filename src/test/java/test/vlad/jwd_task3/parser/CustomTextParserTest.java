@@ -1,17 +1,17 @@
 package test.vlad.jwd_task3.parser;
 
 import by.vlad.jwd_task3.composite.*;
-import by.vlad.jwd_task3.parser.CustomParagraphParser;
+import by.vlad.jwd_task3.parser.ParagraphParser;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class CustomTextParserTest {
-    private CustomParagraphParser parser;
+    private ParagraphParser parser;
 
     @BeforeClass
     private void setUp(){
-        parser = new CustomParagraphParser();
+        parser = new ParagraphParser();
     }
 
     @Test
@@ -21,7 +21,7 @@ public class CustomTextParserTest {
         TextComposite word1 = new TextCompositeImpl(TextComponentType.WORD);
         TextComposite word2 = new TextCompositeImpl(TextComponentType.WORD);
 
-        Punctuation punct = new Punctuation('.');
+        TextComposite punct = new Symbol(TextComponentType.PUNCTUATION, '.');
 
         TextComposite lexeme1 = new TextCompositeImpl(TextComponentType.LEXEME);
         TextComposite lexeme2 = new TextCompositeImpl(TextComponentType.LEXEME);
@@ -30,12 +30,12 @@ public class CustomTextParserTest {
         TextComposite paragraph = new TextCompositeImpl(TextComponentType.PARAGRAPH);
         TextComposite expected = new TextCompositeImpl(TextComponentType.TEXT);
 
-        word1.add(new Letter('I'));
-        word1.add(new Letter('t'));
+        word1.add(new Symbol(TextComponentType.LETTER,'I'));
+        word1.add(new Symbol(TextComponentType.LETTER,'t'));
 
-        word2.add(new Letter('w'));
-        word2.add(new Letter('a'));
-        word2.add(new Letter('s'));
+        word2.add(new Symbol(TextComponentType.LETTER,'w'));
+        word2.add(new Symbol(TextComponentType.LETTER,'a'));
+        word2.add(new Symbol(TextComponentType.LETTER,'s'));
 
         lexeme1.add(word1);
         lexeme2.add(word2);

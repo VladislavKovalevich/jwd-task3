@@ -4,11 +4,11 @@ import by.vlad.jwd_task3.composite.TextComponentType;
 import by.vlad.jwd_task3.composite.TextComposite;
 import by.vlad.jwd_task3.composite.TextCompositeImpl;
 import by.vlad.jwd_task3.exception.CustomTextException;
-import by.vlad.jwd_task3.parser.CustomParagraphParser;
+import by.vlad.jwd_task3.parser.ParagraphParser;
 import by.vlad.jwd_task3.reader.TextFileReader;
 import by.vlad.jwd_task3.reader.impl.TextFileReaderImpl;
-import by.vlad.jwd_task3.service.CustomTextService;
-import by.vlad.jwd_task3.service.impl.CustomTextServiceImpl;
+import by.vlad.jwd_task3.service.TextService;
+import by.vlad.jwd_task3.service.impl.TextServiceImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -24,7 +24,7 @@ public class Main {
             text = fileReader.readTextFromFile(filePath);
 
             TextComposite textComposite = new TextCompositeImpl(TextComponentType.TEXT);
-            CustomParagraphParser parser = new CustomParagraphParser();
+            ParagraphParser parser = new ParagraphParser();
             System.out.println("parser phase");
 
             parser.parse(textComposite, text);
@@ -33,27 +33,27 @@ public class Main {
 
             System.out.println(textComposite.toString());
 
-            CustomTextService customTextService = new CustomTextServiceImpl();
+            TextService textService = new TextServiceImpl();
 
-            System.out.println(customTextService.countConsonantsInText(textComposite));
-            System.out.println(customTextService.countVowelsInText(textComposite));
+            System.out.println(textService.countConsonantsInText(textComposite));
+            System.out.println(textService.countVowelsInText(textComposite));
 
-            Map<String, Integer> map = customTextService.findCountOfWords(textComposite);
+            Map<String, Integer> map = textService.findCountOfWords(textComposite);
 
             for (Map.Entry entry : map.entrySet()) {
-                System.out.println("Key: " + entry.getKey() + " Value: "
+                System.out.println("Key: " + entry.getKey() + ";--- Value: "
                         + entry.getValue());
             }
 
-            List<TextComposite> resultList = customTextService.sortParagraphBySentenceCount(textComposite);
+            List<TextComposite> resultList = textService.sortParagraphBySentenceCount(textComposite);
 
             System.out.println(resultList.toString());
 
-            //resultList = customTextService.deleteSentencesWithWordsLessThan(textComposite, 31);
+            //resultList = textService.deleteSentencesWithWordsLessThan(textComposite, 31);
 
             //System.out.println(resultList.toString());
 
-            resultList = customTextService.findSentenceWithLongestWord(textComposite);
+            resultList = textService.findSentenceWithLongestWord(textComposite);
 
             System.out.println(resultList.toString());
         } catch (CustomTextException e) {
