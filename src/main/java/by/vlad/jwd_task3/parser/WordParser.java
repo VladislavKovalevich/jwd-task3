@@ -14,7 +14,7 @@ public class WordParser extends AbstractParserHandler {
     }
 
     @Override
-    public void parse(TextComposite component, String text) {
+    public void parse(TextComponent composite, String text) {
 
         Pattern pattern = Pattern.compile(WORD_PUNCTUATION_REGEX);
         Matcher matcher = pattern.matcher(text);
@@ -26,12 +26,12 @@ public class WordParser extends AbstractParserHandler {
             Matcher matcherWord = patternWord.matcher(group);
 
             if (matcherWord.matches()) {
-                TextComposite wordComponent = new TextCompositeImpl(TextComponentType.WORD);
-                component.add(wordComponent);
+                TextComponent wordComponent = new TextComposite(TextComponentType.WORD);
+                composite.add(wordComponent);
                 nextHandler.parse(wordComponent, group);
             } else {
-                TextComposite punctuationComponent = new Symbol(TextComponentType.PUNCTUATION, group.charAt(0));
-                component.add(punctuationComponent);
+                TextComponent punctuationComponent = new Symbol(TextComponentType.PUNCTUATION, group.charAt(0));
+                composite.add(punctuationComponent);
             }
         }
     }

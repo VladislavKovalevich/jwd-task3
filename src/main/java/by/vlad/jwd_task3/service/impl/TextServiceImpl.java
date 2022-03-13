@@ -17,8 +17,8 @@ public class TextServiceImpl implements TextService {
     private static final String CONSONANT_REGEX = "(?ui)[a-zа-я&&[^aeiouyуеыаоэяию]]";
 
     @Override
-    public List<TextComposite> sortParagraphBySentenceCount(TextComposite text) {
-        List<TextComposite> paragraphList = text.getAllLeaf();
+    public List<TextComponent> sortParagraphBySentenceCount(TextComponent text) {
+        List<TextComponent> paragraphList = text.getAllLeaf();
 
         paragraphList.sort((o1, o2) -> {
             Integer sizeO1 = o1.getAllLeaf().size();
@@ -31,17 +31,17 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public List<TextComposite> findSentenceWithLongestWord(TextComposite text) {
-        List<TextComposite> paragraphList = text.getAllLeaf();
+    public List<TextComponent> findSentenceWithLongestWord(TextComponent text) {
+        List<TextComponent> paragraphList = text.getAllLeaf();
 
         int sizeOfLongestWord = 0;
 
-        for (TextComposite paragraph : paragraphList) {
-            for (TextComposite sentence : paragraph.getAllLeaf()) {
-                for (TextComposite lexeme : sentence.getAllLeaf()) {
-                    for (TextComposite word : lexeme.getAllLeaf()) {
+        for (TextComponent paragraph : paragraphList) {
+            for (TextComponent sentence : paragraph.getAllLeaf()) {
+                for (TextComponent lexeme : sentence.getAllLeaf()) {
+                    for (TextComponent word : lexeme.getAllLeaf()) {
                         if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
-                            List<TextComposite> letters = word.getAllLeaf();
+                            List<TextComponent> letters = word.getAllLeaf();
                             if (letters.size() > sizeOfLongestWord) {
                                 sizeOfLongestWord = letters.size();
                             }
@@ -51,14 +51,14 @@ public class TextServiceImpl implements TextService {
             }
         }
 
-        List<TextComposite> result = new ArrayList<>();
+        List<TextComponent> result = new ArrayList<>();
 
-        for (TextComposite paragraph : paragraphList) {
-            for (TextComposite sentence : paragraph.getAllLeaf()) {
-                for (TextComposite lexeme : sentence.getAllLeaf()) {
-                    for (TextComposite word : lexeme.getAllLeaf()) {
+        for (TextComponent paragraph : paragraphList) {
+            for (TextComponent sentence : paragraph.getAllLeaf()) {
+                for (TextComponent lexeme : sentence.getAllLeaf()) {
+                    for (TextComponent word : lexeme.getAllLeaf()) {
                         if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
-                            List<TextComposite> letters = word.getAllLeaf();
+                            List<TextComponent> letters = word.getAllLeaf();
                             if (letters.size() == sizeOfLongestWord) {
                                 result.add(word);
                             }
@@ -72,16 +72,16 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public List<TextComposite> deleteSentencesWithWordsLessThan(TextComposite text, int countWord) {
-        List<TextComposite> paragraphList = text.getAllLeaf();
-        List<TextComposite> sentenceList;
+    public List<TextComponent> deleteSentencesWithWordsLessThan(TextComponent text, int countWord) {
+        List<TextComponent> paragraphList = text.getAllLeaf();
+        List<TextComponent> sentenceList;
 
-        for (TextComposite paragraph : paragraphList) {
+        for (TextComponent paragraph : paragraphList) {
             sentenceList = paragraph.getAllLeaf();
-            for (TextComposite sentence : sentenceList) {
+            for (TextComponent sentence : sentenceList) {
                 int countOfWords = 0;
-                for (TextComposite lexeme : sentence.getAllLeaf()) {
-                    for (TextComposite word : lexeme.getAllLeaf()) {
+                for (TextComponent lexeme : sentence.getAllLeaf()) {
+                    for (TextComponent word : lexeme.getAllLeaf()) {
                         if (word.getType().equals(TextComponentType.WORD)) {
                             countOfWords++;
                         }
@@ -97,7 +97,7 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public Map<String, Integer> findCountOfWords(TextComposite text) {
+    public Map<String, Integer> findCountOfWords(TextComponent text) {
         Map<String, Integer> sameWords;
 
         sameWords = text.getAllLeaf().stream()
@@ -114,7 +114,7 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public long countVowelsInText(TextComposite text) {
+    public long countVowelsInText(TextComponent text) {
         Pattern pattern = Pattern.compile(VOWEL_REGEX);
 
         long counter = text.getAllLeaf().stream()
@@ -131,7 +131,7 @@ public class TextServiceImpl implements TextService {
     }
 
     @Override
-    public long countConsonantsInText(TextComposite text) {
+    public long countConsonantsInText(TextComponent text) {
         Pattern pattern = Pattern.compile(CONSONANT_REGEX);
 
         long counter = text.getAllLeaf().stream()

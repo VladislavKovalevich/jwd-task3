@@ -1,13 +1,13 @@
 package by.vlad.jwd_task3.composite;
 
 public enum TextComponentType {
-    LETTER(),
-    PUNCTUATION(),
-    WORD(),
+    LETTER,
+    PUNCTUATION,
+    WORD,
     LEXEME("", " "),
-    SENTENCE(),
+    SENTENCE,
     PARAGRAPH("\t", "\n"),
-    TEXT();
+    TEXT;
 
     private String prefix = "";
     private String postfix = "";

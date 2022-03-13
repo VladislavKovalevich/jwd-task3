@@ -1,6 +1,6 @@
-package by.vlad.jwd_task3.util.impl;
+package by.vlad.jwd_task3.interpreter;
 
-public enum TokenPriorityEnum {
+public enum BitOperationEnum {
     FIRST_BRACKET("(", 0),
     LAST_BRACKET(")", 0),
     OR("|", 1),
@@ -14,14 +14,14 @@ public enum TokenPriorityEnum {
     private String symbol;
     private int priority;
 
-    TokenPriorityEnum(String symbol, int priority){
+    BitOperationEnum(String symbol, int priority){
         this.priority = priority;
         this.symbol = symbol;
     }
 
-    public static TokenPriorityEnum findBitOperation(String name){
-        TokenPriorityEnum found = FIRST_BRACKET;
-        for (TokenPriorityEnum token: values()){
+    public static BitOperationEnum findBitOperation(String name){
+        BitOperationEnum found = FIRST_BRACKET;
+        for (BitOperationEnum token: values()){
             if (token.symbol.equals(name)){
                 found = token;
             }

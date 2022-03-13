@@ -18,17 +18,17 @@ public class CustomTextParserTest {
     public void testFileReader() {
         String data = "\tIt was.";
 
-        TextComposite word1 = new TextCompositeImpl(TextComponentType.WORD);
-        TextComposite word2 = new TextCompositeImpl(TextComponentType.WORD);
+        TextComponent word1 = new TextComposite(TextComponentType.WORD);
+        TextComponent word2 = new TextComposite(TextComponentType.WORD);
 
-        TextComposite punct = new Symbol(TextComponentType.PUNCTUATION, '.');
+        TextComponent punct = new Symbol(TextComponentType.PUNCTUATION, '.');
 
-        TextComposite lexeme1 = new TextCompositeImpl(TextComponentType.LEXEME);
-        TextComposite lexeme2 = new TextCompositeImpl(TextComponentType.LEXEME);
+        TextComponent lexeme1 = new TextComposite(TextComponentType.LEXEME);
+        TextComponent lexeme2 = new TextComposite(TextComponentType.LEXEME);
 
-        TextComposite sentence = new TextCompositeImpl(TextComponentType.SENTENCE);
-        TextComposite paragraph = new TextCompositeImpl(TextComponentType.PARAGRAPH);
-        TextComposite expected = new TextCompositeImpl(TextComponentType.TEXT);
+        TextComponent sentence = new TextComposite(TextComponentType.SENTENCE);
+        TextComponent paragraph = new TextComposite(TextComponentType.PARAGRAPH);
+        TextComponent expected = new TextComposite(TextComponentType.TEXT);
 
         word1.add(new Symbol(TextComponentType.LETTER,'I'));
         word1.add(new Symbol(TextComponentType.LETTER,'t'));
@@ -47,7 +47,7 @@ public class CustomTextParserTest {
         paragraph.add(sentence);
         expected.add(paragraph);
 
-        TextComposite actual = new TextCompositeImpl(TextComponentType.TEXT);
+        TextComponent actual = new TextComposite(TextComponentType.TEXT);
         parser.parse(actual, data);
         Assert.assertEquals(actual.toString(), expected.toString());
     }

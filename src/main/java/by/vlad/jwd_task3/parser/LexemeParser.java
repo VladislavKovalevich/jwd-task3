@@ -1,10 +1,9 @@
 package by.vlad.jwd_task3.parser;
 
 import by.vlad.jwd_task3.composite.TextComponentType;
+import by.vlad.jwd_task3.composite.TextComponent;
 import by.vlad.jwd_task3.composite.TextComposite;
-import by.vlad.jwd_task3.composite.TextCompositeImpl;
-import by.vlad.jwd_task3.util.BitOperation;
-import by.vlad.jwd_task3.util.impl.BitOperationImpl;
+import by.vlad.jwd_task3.interpreter.PolishNotationParser;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,22 +19,22 @@ public class LexemeParser extends AbstractParserHandler{
     }
 
     @Override
-    public void parse(TextComposite component, String text) {
+    public void parse(TextComponent composite, String text) {
         String[] lexemes = text.split(LEXEME_DELIMITER);
 
 
         for (int i = 0; i < lexemes.length; i++) {
-            TextComposite lexemeComponent = new TextCompositeImpl(TextComponentType.LEXEME);
+            TextComponent lexemeComponent = new TextComposite(TextComponentType.LEXEME);
 
             Pattern pattern = Pattern.compile(BIT_OPERATION_REGEX);
             Matcher matcher = pattern.matcher(lexemes[i]);
             if (matcher.find()){
-                BitOperation bitOperation = BitOperationImpl.getInstance();
-                String temp = bitOperation.returnResultOfExpression(lexemes[i]);
+                PolishNotationParser polishNotationParser = PolishNotationParser.getInstance();
+                String temp = polishNotationParser.handleExpression(lexemes[i]);
                 lexemes[i] = temp;
             }
 
-            component.add(lexemeComponent);
+            composite.add(lexemeComponent);
             nextHandler.parse(lexemeComponent, lexemes[i]);
         }
     }

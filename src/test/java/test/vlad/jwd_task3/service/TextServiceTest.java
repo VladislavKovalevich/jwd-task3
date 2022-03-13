@@ -1,8 +1,8 @@
 package test.vlad.jwd_task3.service;
 
-import by.vlad.jwd_task3.composite.TextComponentType;
+import by.vlad.jwd_task3.composite.TextComponent;
 import by.vlad.jwd_task3.composite.TextComposite;
-import by.vlad.jwd_task3.composite.TextCompositeImpl;
+import by.vlad.jwd_task3.composite.TextComponentType;
 import by.vlad.jwd_task3.parser.ParagraphParser;
 import by.vlad.jwd_task3.service.TextService;
 import by.vlad.jwd_task3.service.impl.TextServiceImpl;
@@ -15,14 +15,14 @@ import java.util.Map;
 
 public class TextServiceTest {
     private TextService service;
-    private TextComposite text;
-    private TextComposite text2;
+    private TextComponent text;
+    private TextComponent text2;
 
     @BeforeClass
     void setUp(){
         ParagraphParser parser = new ParagraphParser();
-        text = new TextCompositeImpl(TextComponentType.TEXT);
-        text2 = new TextCompositeImpl(TextComponentType.TEXT);
+        text = new TextComposite(TextComponentType.TEXT);
+        text2 = new TextComposite(TextComponentType.TEXT);
         parser.parse(text, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
         parser.parse(text2, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
         service = new TextServiceImpl();
@@ -31,7 +31,7 @@ public class TextServiceTest {
 
     @Test
     void sortParagraphsBySentenceNumberTest(){
-        List<TextComposite> sorted = service.sortParagraphBySentenceCount(text);
+        List<TextComponent> sorted = service.sortParagraphBySentenceCount(text);
 
         int[] actual = new int[sorted.size()];
         int[] expected = {1, 1, 4};

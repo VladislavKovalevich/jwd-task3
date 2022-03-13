@@ -2,7 +2,7 @@ package by.vlad.jwd_task3.composite;
 
 import java.util.List;
 
-public class Symbol implements TextComposite{
+public class Symbol implements TextComponent {
     private TextComponentType type;
     private char symbol;
 
@@ -21,17 +21,17 @@ public class Symbol implements TextComposite{
     }
 
     @Override
-    public List<TextComposite> getAllLeaf() {
+    public List<TextComponent> getAllLeaf() {
         return null;
     }
 
     @Override
-    public boolean add(TextComposite textComposite) {
+    public boolean add(TextComponent textComponent) {
         return false;
     }
 
     @Override
-    public boolean remove(TextComposite textComposite) {
+    public boolean remove(TextComponent textComponent) {
         return false;
     }
 

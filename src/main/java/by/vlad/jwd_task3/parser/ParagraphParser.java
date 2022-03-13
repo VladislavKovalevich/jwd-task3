@@ -1,8 +1,8 @@
 package by.vlad.jwd_task3.parser;
 
-import by.vlad.jwd_task3.composite.TextComponentType;
+import by.vlad.jwd_task3.composite.TextComponent;
 import by.vlad.jwd_task3.composite.TextComposite;
-import by.vlad.jwd_task3.composite.TextCompositeImpl;
+import by.vlad.jwd_task3.composite.TextComponentType;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,13 +16,13 @@ public class ParagraphParser extends AbstractParserHandler {
     }
 
     @Override
-    public void parse(TextComposite component, String text) {
+    public void parse(TextComponent composite, String text) {
         List<String> paragraphs = Stream.of(text.split(PARAGRAPH_DELIMITER))
                 .collect(Collectors.toList());
 
         for (String paragraph : paragraphs) {
-            TextComposite paragraphComponent = new TextCompositeImpl(TextComponentType.PARAGRAPH);
-            component.add(paragraphComponent);
+            TextComponent paragraphComponent = new TextComposite(TextComponentType.PARAGRAPH);
+            composite.add(paragraphComponent);
             nextHandler.parse(paragraphComponent, paragraph);
         }
     }
