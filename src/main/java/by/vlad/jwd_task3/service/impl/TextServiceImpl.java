@@ -1,18 +1,16 @@
 package by.vlad.jwd_task3.service.impl;
 
 import by.vlad.jwd_task3.composite.*;
+import by.vlad.jwd_task3.exception.CustomTextException;
 import by.vlad.jwd_task3.service.TextService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TextServiceImpl implements TextService {
-    private static final Logger logger = LogManager.getLogger();
     private static final String VOWEL_REGEX = "(?ui)[aeiouyуеыаоэяиюё]";
     private static final String CONSONANT_REGEX = "(?ui)[a-zа-я&&[^aeiouyуеыаоэяию]]";
 
@@ -20,53 +18,48 @@ public class TextServiceImpl implements TextService {
     public List<TextComponent> sortParagraphBySentenceCount(TextComponent text) {
         List<TextComponent> paragraphList = text.getAllLeaf();
 
-        paragraphList.sort((o1, o2) -> {
+        paragraphList = paragraphList.stream().sorted((o1, o2) -> {
             Integer sizeO1 = o1.getAllLeaf().size();
             Integer sizeO2 = o2.getAllLeaf().size();
 
             return sizeO1.compareTo(sizeO2);
-        });
+        }).collect(Collectors.toList());
+
+        /*paragraphList.sort((o1, o2) -> {
+            Integer sizeO1 = o1.getAllLeaf().size();
+            Integer sizeO2 = o2.getAllLeaf().size();
+
+            return sizeO1.compareTo(sizeO2);
+        });*/
 
         return paragraphList;
     }
 
     @Override
-    public List<TextComponent> findSentenceWithLongestWord(TextComponent text) {
+    public List<TextComponent> findSentenceWithLongestWord(TextComponent text) throws CustomTextException {
         List<TextComponent> paragraphList = text.getAllLeaf();
 
-        int sizeOfLongestWord = 0;
+        OptionalInt longestWordLength = OptionalInt.of(0);
 
-        for (TextComponent paragraph : paragraphList) {
-            for (TextComponent sentence : paragraph.getAllLeaf()) {
-                for (TextComponent lexeme : sentence.getAllLeaf()) {
-                    for (TextComponent word : lexeme.getAllLeaf()) {
-                        if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
-                            List<TextComponent> letters = word.getAllLeaf();
-                            if (letters.size() > sizeOfLongestWord) {
-                                sizeOfLongestWord = letters.size();
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        longestWordLength = text.getAllLeaf().stream()
+                .flatMap(p -> p.getAllLeaf().stream())
+                .flatMap(s -> s.getAllLeaf().stream())
+                .flatMap(l -> l.getAllLeaf().stream())
+                .filter(w -> w.getType().equals(TextComponentType.WORD))
+                .mapToInt(w -> w.getAllLeaf().size())
+                .max();
 
-        List<TextComponent> result = new ArrayList<>();
+        longestWordLength.orElseThrow(() -> new CustomTextException("invalid value"));
+        int maxLength = longestWordLength.getAsInt();
+        List<TextComponent> result;
 
-        for (TextComponent paragraph : paragraphList) {
-            for (TextComponent sentence : paragraph.getAllLeaf()) {
-                for (TextComponent lexeme : sentence.getAllLeaf()) {
-                    for (TextComponent word : lexeme.getAllLeaf()) {
-                        if (!(word.getType().equals(TextComponentType.PUNCTUATION))) {
-                            List<TextComponent> letters = word.getAllLeaf();
-                            if (letters.size() == sizeOfLongestWord) {
-                                result.add(word);
-                            }
-                        }
-                    }
-                }
-            }
-        }
+        result = text.getAllLeaf().stream()
+                .flatMap(p -> p.getAllLeaf().stream())
+                .flatMap(s -> s.getAllLeaf().stream()
+                        .flatMap(l -> l.getAllLeaf().stream())
+                        .filter(w -> w.getType().equals(TextComponentType.WORD))
+                        .filter(w -> w.getAllLeaf().size() == maxLength))
+                .collect(Collectors.toList());
 
         return result;
     }

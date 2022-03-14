@@ -3,6 +3,7 @@ package test.vlad.jwd_task3.service;
 import by.vlad.jwd_task3.composite.TextComponent;
 import by.vlad.jwd_task3.composite.TextComposite;
 import by.vlad.jwd_task3.composite.TextComponentType;
+import by.vlad.jwd_task3.exception.CustomTextException;
 import by.vlad.jwd_task3.parser.ParagraphParser;
 import by.vlad.jwd_task3.service.TextService;
 import by.vlad.jwd_task3.service.impl.TextServiceImpl;
@@ -21,10 +22,13 @@ public class TextServiceTest {
     @BeforeClass
     void setUp(){
         ParagraphParser parser = new ParagraphParser();
+
         text = new TextComposite(TextComponentType.TEXT);
         text2 = new TextComposite(TextComponentType.TEXT);
-        parser.parse(text, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
-        parser.parse(text2, "\tSome data! Test test. Qwerty dsa asd. Qwerty sum.\tTestssooooo Test tetete ttesa.\tTypes tests.");
+
+        parser.parse(text, "Some data! Test test. Qwerty dsa asd. Qwerty sum.\nTestssooooo Test tetete ttesa.\nTypes tests.");
+        parser.parse(text2, "Some data! Test test. Qwerty dsa asd. Qwerty sum.\nTestssooooo Test tetete ttesa.\nTypes tests.");
+
         service = new TextServiceImpl();
     }
 
@@ -40,11 +44,11 @@ public class TextServiceTest {
             actual[i] = sorted.get(i).getAllLeaf().size();
         }
 
-        Assert.assertEquals(expected,actual);
+        Assert.assertEquals(actual,expected);
     }
 
     @Test
-    void findSentencesWithLongestWord() {
+    void findSentencesWithLongestWord() throws CustomTextException {
         List sentences = service.findSentenceWithLongestWord(text);
         String expected = "Testssooooo";
         String actual = sentences.get(0).toString();
@@ -53,10 +57,10 @@ public class TextServiceTest {
 
     @Test
     void removeAllSentencesWithNumberWordsTest() {
-        List paragraphs = service.deleteSentencesWithWordsLessThan(text2, 3);
-        String expected = "\tQwerty dsa asd. \n";
-        String actual = paragraphs.get(0).toString();
-        Assert.assertEquals(expected,actual);
+        List<TextComponent> paragraphs = service.deleteSentencesWithWordsLessThan(text2, 3);
+        String expected = "Qwerty dsa asd.";
+        String actual = paragraphs.get(0).getAllLeaf().get(0).toString().trim();
+        Assert.assertEquals(actual, expected);
     }
 
     @Test

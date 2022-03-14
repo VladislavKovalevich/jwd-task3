@@ -37,29 +37,30 @@ public class Main {
             System.out.println(5|(1&2&(3|(4&(1^5|6&47)|3)|(~89&4|(42&7)))|1));
             System.out.println((~71&(2&3|(3|(2&1>>2|2)&2)|10&2))|78);
             System.out.println((7^5|1&2<<(2|5>>2&71))|1200);
-            //TextService textService = new TextServiceImpl();
 
-            //System.out.println(textService.countConsonantsInText(textComponent));
-            //System.out.println(textService.countVowelsInText(textComponent));
+            TextService textService = new TextServiceImpl();
 
-            //Map<String, Integer> map = textService.findCountOfWords(textComponent);
+            System.out.println(textService.countConsonantsInText(textComponent));
+            System.out.println(textService.countVowelsInText(textComponent));
 
-            //for (Map.Entry entry : map.entrySet()) {
-            //    System.out.println("Key: " + entry.getKey() + ";--- Value: "
-            //            + entry.getValue());
-            //}
+            Map<String, Integer> map = textService.findCountOfWords(textComponent);
 
-            //List<TextComponent> resultList = textService.sortParagraphBySentenceCount(textComponent);
+            for (Map.Entry entry : map.entrySet()) {
+                System.out.println("Key: " + entry.getKey() + ";--- Value: "
+                        + entry.getValue());
+            }
 
-            //System.out.println(resultList.toString());
+            List<TextComponent> resultList = textService.sortParagraphBySentenceCount(textComponent);
 
-            //resultList = textService.deleteSentencesWithWordsLessThan(textComponent, 31);
+            System.out.println(resultList.toString());
 
-            //System.out.println(resultList.toString());
+            resultList = textService.deleteSentencesWithWordsLessThan(textComponent, 31);
 
-            //resultList = textService.findSentenceWithLongestWord(textComponent);
+            System.out.println(resultList.toString());
 
-            //System.out.println(resultList.toString());
+            resultList = textService.findSentenceWithLongestWord(textComponent);
+
+            System.out.println(resultList.toString());
         } catch (CustomTextException e) {
             e.printStackTrace();
         }
