@@ -25,13 +25,6 @@ public class TextServiceImpl implements TextService {
             return sizeO1.compareTo(sizeO2);
         }).collect(Collectors.toList());
 
-        /*paragraphList.sort((o1, o2) -> {
-            Integer sizeO1 = o1.getAllLeaf().size();
-            Integer sizeO2 = o2.getAllLeaf().size();
-
-            return sizeO1.compareTo(sizeO2);
-        });*/
-
         return paragraphList;
     }
 
@@ -55,10 +48,10 @@ public class TextServiceImpl implements TextService {
 
         result = text.getAllLeaf().stream()
                 .flatMap(p -> p.getAllLeaf().stream())
-                .flatMap(s -> s.getAllLeaf().stream()
-                        .flatMap(l -> l.getAllLeaf().stream())
+                .filter(s -> s.getAllLeaf().stream()
+                        .anyMatch(l -> l.getAllLeaf().stream()
                         .filter(w -> w.getType().equals(TextComponentType.WORD))
-                        .filter(w -> w.getAllLeaf().size() == maxLength))
+                        .anyMatch(w -> w.getAllLeaf().size() == maxLength)))
                 .collect(Collectors.toList());
 
         return result;

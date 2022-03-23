@@ -17,8 +17,9 @@ public class PolishNotationParserTest {
     @DataProvider(name = "polishNotationParser")
     private Object[][] initDataSet(){
         return new Object[][]{
-                {},
-                {}
+                {"0", "3<<4&6>>2"},
+                {"2", "2&(2|4)"},
+                {"96", "3<<5"},
         };
     }
 

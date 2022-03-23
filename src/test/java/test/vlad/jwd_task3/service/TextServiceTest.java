@@ -26,7 +26,7 @@ public class TextServiceTest {
         text = new TextComposite(TextComponentType.TEXT);
         text2 = new TextComposite(TextComponentType.TEXT);
 
-        parser.parse(text, "Some data! Test test. Qwerty dsa asd. Qwerty sum.\nTestssooooo Test tetete ttesa.\nTypes tests.");
+        parser.parse(text, "Some data! Test test. Qwerty dsa asd. Qwerty sum.\nTestssooooo test. Test tetete ttesa.\nTypes tests.");
         parser.parse(text2, "Some data! Test test. Qwerty dsa asd. Qwerty sum.\nTestssooooo Test tetete ttesa.\nTypes tests.");
 
         service = new TextServiceImpl();
@@ -35,24 +35,30 @@ public class TextServiceTest {
 
     @Test
     void sortParagraphsBySentenceNumberTest(){
+        String expected = "\tTypes tests. \n\tTestssooooo test. Test tetete ttesa. \n\tSome data! Test test. Qwerty dsa asd. Qwerty sum. \n";
         List<TextComponent> sorted = service.sortParagraphBySentenceCount(text);
 
-        int[] actual = new int[sorted.size()];
-        int[] expected = {1, 1, 4};
+        TextComponent actual = new TextComposite(TextComponentType.TEXT);
 
-        for (int i = 0; i<sorted.size();i++){
-            actual[i] = sorted.get(i).getAllLeaf().size();
+        for (TextComponent paragraph : sorted) {
+            actual.add(paragraph);
         }
 
-        Assert.assertEquals(actual,expected);
+        Assert.assertEquals(actual.toString(),expected);
     }
 
     @Test
     void findSentencesWithLongestWord() throws CustomTextException {
-        List sentences = service.findSentenceWithLongestWord(text);
-        String expected = "Testssooooo";
-        String actual = sentences.get(0).toString();
-        Assert.assertEquals(expected,actual);
+        List<TextComponent> sentences = service.findSentenceWithLongestWord(text);
+        String expected = "Testssooooo test. ";
+
+        StringBuilder actual = new StringBuilder();
+
+        for (TextComponent sentence : sentences) {
+            actual.append(sentence.toString());
+        }
+
+        Assert.assertEquals(actual.toString(), expected);
     }
 
     @Test
@@ -66,7 +72,7 @@ public class TextServiceTest {
     @Test
     void findDuplicateNumberTest() {
         Map<String, Integer> map = service.findCountOfWords(text);
-        int expected = 3;
+        int expected = 4;
         int actual = map.get("test");
         Assert.assertEquals(actual, expected);
     }
@@ -74,14 +80,14 @@ public class TextServiceTest {
     @Test
     void countVowelTest() {
         long actual = service.countVowelsInText(text);
-        long expected = 28;
+        long expected = 29;
         Assert.assertEquals(expected,actual);
     }
 
     @Test
     void countConsonantsTest() {
         long actual = service.countConsonantsInText(text);
-        long expected = 45;
+        long expected = 48;
         Assert.assertEquals(expected,actual);
     }
 }
